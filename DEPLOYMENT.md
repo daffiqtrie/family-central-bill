@@ -9,8 +9,6 @@
 FAMILY_API_KEY=<your-strong-secret-key>
 ```
 
-> ⚠️ **Jangan pakai `DetigaPlus`** - ini untuk development only!
-
 ### 2. Disable Debug Mode
 
 ```bash
@@ -116,21 +114,6 @@ gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
 | PUT    | `/api/v1/utility-accounts/{id}` | ✅   | Update account      |
 | DELETE | `/api/v1/utility-accounts/{id}` | ✅   | Delete account      |
 
----
-
-## 📝 Compress Command
-
-```bash
-cd /path/to/project
-tar -czvf FamilyCentralAPI.tar.gz \
-  --exclude='venv' \
-  --exclude='__pycache__' \
-  --exclude='*.pyc' \
-  --exclude='.git' \
-  --exclude='*.egg-info' \
-  --exclude='family.db' \
-  FamilyCentralAPI/
-```
 
 ---
 
