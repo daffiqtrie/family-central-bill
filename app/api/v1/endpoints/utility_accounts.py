@@ -2,7 +2,7 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Path, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
@@ -33,12 +33,12 @@ def get_service(db: DbSession) -> UtilityAccountService:
 )
 async def list_utility_accounts(
     db: DbSession,
-    skip: int = 0,
-    limit: int = 100,
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=100, ge=1, le=100),
 ) -> list[UtilityAccountResponse]:
     """
     Retrieve all utility accounts with optional pagination.
-    
+
     - **skip**: Number of records to skip (default: 0)
     - **limit**: Maximum number of records to return (default: 100)
     """
@@ -59,7 +59,7 @@ async def create_utility_account(
 ) -> UtilityAccountResponse:
     """
     Create a new utility account.
-    
+
     - **provider**: Utility provider (PLN, PDAM, INDIHOME)
     - **customer_id**: Your customer ID from the provider
     - **alias**: Optional friendly name
@@ -76,7 +76,7 @@ async def create_utility_account(
 )
 async def get_utility_account(
     db: DbSession,
-    account_id: int,
+    account_id: int = Path(..., ge=1),
 ) -> UtilityAccountResponse:
     """Retrieve a specific utility account by ID."""
     service = get_service(db)
@@ -91,12 +91,12 @@ async def get_utility_account(
 )
 async def update_utility_account(
     db: DbSession,
-    account_id: int,
     data: UtilityAccountUpdate,
+    account_id: int = Path(..., ge=1),
 ) -> UtilityAccountResponse:
     """
     Update an existing utility account.
-    
+
     Only provided fields will be updated (partial update).
     """
     service = get_service(db)
@@ -111,7 +111,7 @@ async def update_utility_account(
 )
 async def delete_utility_account(
     db: DbSession,
-    account_id: int,
+    account_id: int = Path(..., ge=1),
 ) -> None:
     """Delete a utility account by ID."""
     service = get_service(db)

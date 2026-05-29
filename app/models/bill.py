@@ -1,7 +1,6 @@
 """Bill cache model for smart caching of bill check results."""
 
 from datetime import datetime
-from typing import Any
 
 from sqlalchemy import DateTime, Index, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
