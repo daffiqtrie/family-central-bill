@@ -2,7 +2,8 @@
 
 from enum import Enum
 
-from sqlalchemy import Boolean, Enum as SQLEnum, Integer, String
+from sqlalchemy import Boolean, Integer, String
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base_class import Base

@@ -1,7 +1,7 @@
 """FamilyCentralAPI - Home server application entry point."""
 
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,9 +22,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan manager for startup/shutdown events."""
     # Startup: Always create tables (SQLite file will be created if needed)
     await init_db()
-    
+
     yield
-    
+
     # Shutdown
     await close_db()
 
@@ -33,9 +33,9 @@ app = FastAPI(
     title=settings.APP_NAME,
     description="Home server API for managing family utilities and services",
     version="0.1.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json",
+    docs_url="/docs" if settings.docs_enabled else None,
+    redoc_url="/redoc" if settings.docs_enabled else None,
+    openapi_url="/openapi.json" if settings.docs_enabled else None,
     lifespan=lifespan,
 )
 
@@ -72,6 +72,7 @@ app.include_router(api_v1_router, prefix=settings.API_V1_PREFIX)
 # ─────────────────────────────────────────────────────────────────────────────
 # Health Check Endpoint
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 @app.get("/", tags=["Health"], summary="Root endpoint")
 async def root() -> dict[str, str]:
